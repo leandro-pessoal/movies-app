@@ -89,3 +89,21 @@ export async function getLatestMovie(time_window) {
 
   return { error: false, data: responseJson.results };
 }
+
+/**
+ * Fetch personalized recommendations for a user from the AWS API Gateway endpoint.
+ *
+ * @async
+ * @function
+ * @param {number|string} userId - The id of the user to get recommendations for.
+ * @returns {Promise<{error: boolean, data: Array}>} A promise that resolves to an object with recommendation data.
+ *
+ * Example response shape: [{ movieId, title, genres, imdbId, tmdbId, rank, score }, ...]
+ */
+export async function getRecomendation(userId) {
+  const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_recomendation?userId=${userId}`;
+  const response = await fetch(url);
+  const responseJson = await response.json();
+
+  return { error: false, data: responseJson };
+}

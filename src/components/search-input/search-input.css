@@ -9,3 +9,9 @@
 .search__search-input {
   @apply bg-transparent text-xs outline-none h-3 w-20 md:h-auto md:w-auto;
 }
+
+.search__user-id {
+  @apply  text-xs  bg-transparent text-center;
+  width: 4ch;
+  padding: 0 0.25rem;
+}
