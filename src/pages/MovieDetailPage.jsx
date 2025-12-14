@@ -11,6 +11,14 @@ export default function MovieDetailPage() {
     const [isHasRecommendation, setIsRecommendation] = useState(null);
 
     useEffect(() => {
+        const reloadKey = 'movieDetailReloaded';
+        // If we haven't reloaded for this movie id yet, set flag and reload once.
+        if (sessionStorage.getItem(reloadKey) !== id) {
+            sessionStorage.setItem(reloadKey, id);
+            window.location.reload();
+            return;
+        }
+
         getMovieDetail(id).then(
             async ({ data }) => {
                 setMovie(data)
@@ -22,6 +30,19 @@ export default function MovieDetailPage() {
                 setVideos(data)
             }
         )
+    }, [id])
+
+    useEffect(() => {
+        const reloadKey = 'movieDetailReloaded';
+        // Remove the reload flag when leaving/changing the detail page so
+        // subsequent navigations trigger a fresh reload.
+        return () => {
+            try {
+                sessionStorage.removeItem(reloadKey);
+            } catch (e) {
+                // ignore sessionStorage errors (e.g., in private mode)
+            }
+        }
     }, [id])
 
     const isHasRecommendationHandler = (isHasRecommendation) => {
