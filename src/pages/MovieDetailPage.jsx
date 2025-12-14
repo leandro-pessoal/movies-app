@@ -53,7 +53,17 @@ export default function MovieDetailPage() {
         // Use custom recommendation endpoint which accepts userId and tmdbId.
         // Using userId 76 as requested. The helper maps returned recommendations
         // to TMDB movie objects so the UI can render them normally.
-        return getRecomendationX(76, id, page ?? 1)
+        // Prefer the `userId` stored by the app (SearchInput stores it in localStorage).
+        // Fall back to 76 when no userId is provided.
+        let userId = 76
+        try {
+            const stored = localStorage.getItem('userId')
+            if (stored) userId = Number(stored) || 76
+        } catch (e) {
+            // ignore localStorage errors
+        }
+
+        return getRecomendationX(userId, id, page ?? 1)
     }
 
     // return loading
