@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BsStarFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import { Loading, Movies } from "../components";
-import { IMAGE_URL_ORIGINAL, getMovieDetail, getMovieRecommendations, getMovieVideos } from "../utils";
+import { IMAGE_URL_ORIGINAL, getMovieDetail, getMovieRecommendations, getMovieVideos, getRecomendationX } from "../utils";
 
 export default function MovieDetailPage() {
     const { id } = useParams()
@@ -29,7 +29,10 @@ export default function MovieDetailPage() {
     }
 
     const fetchRecommendation = (page) => {
-        return getMovieRecommendations(id, page ?? 1)
+        // Use custom recommendation endpoint which accepts userId and tmdbId.
+        // Using userId 76 as requested. The helper maps returned recommendations
+        // to TMDB movie objects so the UI can render them normally.
+        return getRecomendationX(76, id, page ?? 1)
     }
 
     // return loading

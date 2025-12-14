@@ -107,3 +107,39 @@ export async function getRecomendation(userId) {
 
   return { error: false, data: responseJson };
 }
+
+/**
+ * Fetch personalized recommendations for a given user and a selected tmdb movie id.
+ * This will call the custom AWS endpoint and then fetch TMDB movie details
+ * for each recommended item so the UI can use the same movie shape as TMDB.
+ *
+ * @param {number|string} userId
+ * @param {number|string} tmdbId
+ * @param {number} page (optional) - kept for API compatibility with components (ignored here)
+ * @returns {Promise<{error:boolean, data:Array, total_pages:number}>}
+ */
+export async function getRecomendationX(userId, tmdbId, page = 1) {
+  const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_recomendation_x?userId=${userId}&tmdbId=${tmdbId}`;
+  const response = await fetch(url);
+  const responseJson = await response.json();
+
+  // Expected responseJson is an array of recommendation objects containing at least a tmdbId or movieId
+  const recommendations = Array.isArray(responseJson) ? responseJson : [];
+
+  // Map recommended items to full TMDB movie objects so components like MovieCard can render normally
+  const mapped = await Promise.all(recommendations.map(async (rec) => {
+    const id = rec.tmdbId ?? rec.movieId ?? rec.id;
+    if (!id) return null;
+    try {
+      const res = await fetchWithToken(`${BASE_URL}/movie/${id}`);
+      const json = await res.json();
+      return json;
+    } catch (e) {
+      return null;
+    }
+  }));
+
+  const filtered = mapped.filter(Boolean);
+
+  return { error: false, data: filtered, total_pages: 1 };
+}
