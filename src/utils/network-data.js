@@ -19,10 +19,40 @@ export async function getNowPlaying(page) {
 }
 
 export async function getPopular(page) {
-  const response = await fetchWithToken(`${BASE_URL}/movie/popular?page=${page}`);
-  const responseJson = await response.json();
+  // Prefer custom "most popular" endpoint which returns a ranked list
+  // of popular movies (with tmdbId). Map each item to full TMDB movie
+  // objects so the UI can render them just like other lists.
+  try {
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_most_popular`;
+    const res = await fetch(url);
+    const json = await res.json();
 
-  return { error: false, data: responseJson.results, total_pages: responseJson.total_pages };
+    const recommendations = Array.isArray(json) ? json : [];
+
+    const mapped = await Promise.all(recommendations.map(async (rec) => {
+      const id = Number(rec.tmdbId ?? rec.movieId ?? rec.id);
+      if (!id) return null;
+      try {
+        const r = await fetchWithToken(`${BASE_URL}/movie/${id}`);
+        const j = await r.json();
+        return j;
+      } catch (e) {
+        return null;
+      }
+    }));
+
+    const filtered = mapped.filter(Boolean);
+    return { error: false, data: filtered, total_pages: 1 };
+  } catch (e) {
+    // fallback to TMDB popular endpoint if custom endpoint fails
+    try {
+      const response = await fetchWithToken(`${BASE_URL}/movie/popular?page=${page}`);
+      const responseJson = await response.json();
+      return { error: false, data: responseJson.results, total_pages: responseJson.total_pages };
+    } catch (err) {
+      return { error: true, data: [], total_pages: 0 };
+    }
+  }
 }
 
 export async function getTopTated(page) {
