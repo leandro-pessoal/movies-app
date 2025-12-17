@@ -40,7 +40,7 @@ export default function MoviesPage() {
     const Landing = () => {
         return (
             <section className="app__app-content">
-                <LatestMovieCard />
+                {/*<LatestMovieCard />*/}
                 <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Recommended For You" />
                 <Movies fetchData={fetchTrending} title="Trending Now" />
                 <Movies fetchData={fetchPopular} title="Most Popular" />

@@ -209,3 +209,19 @@ export async function getTrendingNow() {
     }
   }
 }
+
+/**
+ * Send user interaction event to AWS Personalize
+ * @param {number|string} userId - The user ID
+ * @param {number|string} tmdbId - The TMDB movie ID
+ * @returns {Promise<{error: boolean}>}
+ */
+export async function putEvent(userId, tmdbId) {
+  try {
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/put_event?userId=${userId}&tmdbId=${tmdbId}`;
+    await fetch(url, { method: 'PUT' });
+    return { error: false };
+  } catch (e) {
+    return { error: true };
+  }
+}

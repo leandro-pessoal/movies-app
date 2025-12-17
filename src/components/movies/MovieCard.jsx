@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { IMAGE_URL_W300 } from '../../utils';
+import { IMAGE_URL_W300, putEvent } from '../../utils';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiImage } from 'react-icons/fi';
@@ -7,8 +7,13 @@ import { FiImage } from 'react-icons/fi';
 export default function MovieCard({ movie }) {
     const [imageLoaded, setImageLoaded] = useState(false);
 
+    const handleClick = () => {
+        const userId = localStorage.getItem('userId') || '76';
+        putEvent(userId, movie.id);
+    };
+
     return (
-        <Link to={`/detail/${movie.id}`} className="card">
+        <Link to={`/detail/${movie.id}`} className="card" onClick={handleClick}>
             {
                 movie.poster_path ? (
                     <div className={`rounded-lg w-max ${imageLoaded ? '' : 'bg-gray-600 animate-pulse'}`}>
