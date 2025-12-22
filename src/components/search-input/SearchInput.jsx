@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { BsSearch } from "react-icons/bs";
+import { FaUser } from "react-icons/fa";
 import './search-input.css';
 import { gsap } from 'gsap';
 import { useSearchParams } from 'react-router-dom';
@@ -9,7 +10,7 @@ export default function SearchInput() {
     const [toggleInput, setToggleInput] = useState(searchParams.get('query') ? true : false);
     const searchInput = useRef()
     const [userId, setUserId] = useState(() => {
-        return localStorage.getItem('userId') ?? ''
+        return localStorage.getItem('userId') ?? '76'
     })
 
     useEffect(() => {
@@ -40,30 +41,30 @@ export default function SearchInput() {
     }
 
     const handleUserIdChange = (e) => {
-        // keep only digits and limit to 4 chars
-        const v = (e.target.value ?? '').replace(/\D/g, '').slice(0, 4)
+        const v = e.target.value
         setUserId(v)
-        if (v) {
-            localStorage.setItem('userId', v)
-        } else {
-            localStorage.removeItem('userId')
-        }
+        localStorage.setItem('userId', v)
         // notify other components
         window.dispatchEvent(new CustomEvent('userIdChange', { detail: v }))
     }
 
     return (
         <div className="search">
-            <input
-                aria-label="User ID"
-                className="search__user-id inline-block"
-                type="text"
-                inputMode="numeric"
-                placeholder="ID"
-                maxLength={4}
-                value={userId}
-                onChange={handleUserIdChange}
-            />
+            <div className="search__user-wrapper">
+                <FaUser size={12} className="search__user-icon" />
+                <select
+                    aria-label="User ID"
+                    className="search__user-select"
+                    value={userId}
+                    onChange={handleUserIdChange}
+                >
+                    <option value="76">76</option>
+                    <option value="77">77</option>
+                    <option value="78">78</option>
+                    <option value="79">79</option>
+                    <option value="80">80</option>
+                </select>
+            </div>
             <div className={`search__search-wrapper ${toggleInput ? '' : 'md:hidden'}`}>
                 <BsSearch size="24" className='min-w-min hidden md:block' />
                 <input

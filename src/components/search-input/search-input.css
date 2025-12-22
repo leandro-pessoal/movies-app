@@ -10,8 +10,14 @@
   @apply bg-transparent text-xs outline-none h-3 w-20 md:h-auto md:w-auto;
 }
 
-.search__user-id {
-  @apply  text-xs  bg-transparent text-center;
-  width: 4ch;
-  padding: 0 0.25rem;
+.search__user-wrapper {
+  @apply flex items-center gap-1 bg-slate-800 rounded-md px-2 py-1;
+}
+
+.search__user-icon {
+  @apply text-blue-400;
+}
+
+.search__user-select {
+  @apply bg-transparent text-xs outline-none text-white;
 }
