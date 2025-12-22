@@ -58,11 +58,11 @@ export default function SearchInput() {
                     value={userId}
                     onChange={handleUserIdChange}
                 >
-                    <option value="76">76</option>
-                    <option value="77">77</option>
-                    <option value="78">78</option>
-                    <option value="79">79</option>
-                    <option value="80">80</option>
+                    <option value="76">User 76</option>
+                    <option value="77">User 55</option>
+                    <option value="78">User 111</option>
+                    <option value="79">User 01</option>
+                    <option value="80">User 80</option>
                 </select>
             </div>
             <div className={`search__search-wrapper ${toggleInput ? '' : 'md:hidden'}`}>
