@@ -21,3 +21,7 @@
 .search__user-select {
   @apply bg-transparent text-xs outline-none text-white;
 }
+
+.search__user-select option {
+  @apply text-black;
+}
