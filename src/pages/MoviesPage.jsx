@@ -1,6 +1,6 @@
 import { Navbar, Movies, LatestMovieCard } from "../components"
 import { useState, useEffect } from 'react'
-import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow } from "../utils"
+import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre } from "../utils"
 import { useSearchParams } from "react-router-dom";
 import SearchPage from "./SearchPage";
 
@@ -37,6 +37,22 @@ export default function MoviesPage() {
         return getUpcoming(page ?? 1)
     }
 
+    const fetchComedy = (page) => {
+        return getMoviesByGenre(userId, 'Comedy', page ?? 1)
+    }
+
+    const fetchAction = (page) => {
+        return getMoviesByGenre(userId, 'Action', page ?? 1)
+    }
+
+    const fetchDrama = (page) => {
+        return getMoviesByGenre(userId, 'Drama', page ?? 1)
+    }
+
+    const fetchHorror = (page) => {
+        return getMoviesByGenre(userId, 'Horror', page ?? 1)
+    }
+
     const Landing = () => {
         return (
             <section className="app__app-content">
@@ -44,9 +60,13 @@ export default function MoviesPage() {
                 <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Recommended For You" />
                 <Movies fetchData={fetchTrending} title="Trending Now" />
                 <Movies fetchData={fetchPopular} title="Most Popular" />
+                <Movies fetchData={fetchComedy} title="Comedy" />
+                <Movies fetchData={fetchAction} title="Action" />
+                <Movies fetchData={fetchDrama} title="Drama" />
+                <Movies fetchData={fetchHorror} title="Horror" />
                 {/*<Movies fetchData={fetchNowPlaying} title="Now Playing" />*/}
-                <Movies fetchData={fetchTopRated} title="Top Rated" />
-                <Movies fetchData={fetchUpcoming} title="Upcoming" />
+                {/*<Movies fetchData={fetchTopRated} title="Top Rated" />*/}
+                {/*<Movies fetchData={fetchUpcoming} title="Upcoming" />*/}
             </section>
         )
     }
