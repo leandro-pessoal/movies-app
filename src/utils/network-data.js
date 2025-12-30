@@ -244,6 +244,38 @@ export async function getMoviesByGenre(userId, genre, page = 1) {
 }
 
 /**
+ * Fetch watched movies (iterations) for a user from AWS endpoint
+ * @param {number|string} userId - The user ID
+ * @returns {Promise<{error: boolean, data: Array, total_pages: number}>}
+ */
+export async function getWatchedMovies(userId) {
+  try {
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_iterations?userId=${userId}`;
+    const res = await fetch(url);
+    const json = await res.json();
+
+    const iterations = Array.isArray(json) ? json : [];
+
+    const mapped = await Promise.all(iterations.map(async (item) => {
+      const id = Number(item.tmdbId ?? item.movieId ?? item.id);
+      if (!id) return null;
+      try {
+        const r = await fetchWithToken(`${BASE_URL}/movie/${id}`);
+        const j = await r.json();
+        return j;
+      } catch (e) {
+        return null;
+      }
+    }));
+
+    const filtered = mapped.filter(Boolean);
+    return { error: false, data: filtered, total_pages: 1 };
+  } catch (e) {
+    return { error: true, data: [], total_pages: 0 };
+  }
+}
+
+/**
  * Send user interaction event to AWS Personalize
  * @param {number|string} userId - The user ID
  * @param {number|string} tmdbId - The TMDB movie ID

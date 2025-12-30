@@ -1,6 +1,6 @@
 import { Navbar, Movies, LatestMovieCard } from "../components"
 import { useState, useEffect } from 'react'
-import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre } from "../utils"
+import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre, getWatchedMovies } from "../utils"
 import { useSearchParams } from "react-router-dom";
 import SearchPage from "./SearchPage";
 
@@ -53,10 +53,15 @@ export default function MoviesPage() {
         return getMoviesByGenre(userId, 'Horror', page ?? 1)
     }
 
+    const fetchWatched = () => {
+        return getWatchedMovies(userId)
+    }
+
     const Landing = () => {
         return (
             <section className="app__app-content">
                 {/*<LatestMovieCard />*/}
+                <Movies key={`watched-${userId}`} fetchData={fetchWatched} title="Watched Movies" />
                 <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Recommended For You" />
                 <Movies fetchData={fetchTrending} title="Trending Now" />
                 <Movies fetchData={fetchPopular} title="Most Popular" />
