@@ -63,6 +63,7 @@ export default function SearchInput() {
                     <option value="75">User 75</option>
                     <option value="76">User 76</option>
                     <option value="111">User 111</option>
+                    <option value="1000">User 1000</option>
                 </select>
             </div>
             <div className={`search__search-wrapper ${toggleInput ? '' : 'md:hidden'}`}>
