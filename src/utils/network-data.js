@@ -294,12 +294,12 @@ export async function putEvent(userId, tmdbId) {
 /**
  * Fetch recommendations based on a watched movie
  * @param {number|string} userId - The user ID
- * @param {number|string} itemId - The movie ID that was watched
+ * @param {number|string} tmdbId - The TMDB movie ID that was watched
  * @returns {Promise<{error: boolean, data: Array, total_pages: number}>}
  */
-export async function getRecomendationWatchX(userId, itemId) {
+export async function getRecomendationWatchX(userId, tmdbId) {
   try {
-    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_recomendation_watch_x?userId=${userId}&ItemID=${itemId}`;
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_recomendation_watch_x?userId=${userId}&tmdbId=${tmdbId}`;
     const res = await fetch(url);
     const json = await res.json();
 
