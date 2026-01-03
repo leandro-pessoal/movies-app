@@ -1,12 +1,13 @@
 import { Navbar, Movies, LatestMovieCard } from "../components"
 import { useState, useEffect } from 'react'
-import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre, getWatchedMovies } from "../utils"
+import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre, getWatchedMovies, getRecomendationWatchX } from "../utils"
 import { useSearchParams } from "react-router-dom";
 import SearchPage from "./SearchPage";
 
 export default function MoviesPage() {
     const [useQuery] = useSearchParams()
     const [userId, setUserId] = useState(() => Number(localStorage.getItem('userId')) || 76)
+    const [watchedMovies, setWatchedMovies] = useState([])
 
     useEffect(() => {
         const onUserId = (e) => {
@@ -16,6 +17,16 @@ export default function MoviesPage() {
         window.addEventListener('userIdChange', onUserId)
         return () => window.removeEventListener('userIdChange', onUserId)
     }, [])
+
+    useEffect(() => {
+        const loadWatchedMovies = async () => {
+            const result = await getWatchedMovies(userId)
+            if (!result.error && result.data.length > 0) {
+                setWatchedMovies(result.data.slice(0, 3))
+            }
+        }
+        loadWatchedMovies()
+    }, [userId])
 
     const fetchNowPlaying = (page) => {
         return getNowPlaying(page ?? 1)
@@ -61,14 +72,14 @@ export default function MoviesPage() {
         return (
             <section className="app__app-content">
                 {/*<LatestMovieCard />*/}
-                <Movies key={`watched-${userId}`} fetchData={fetchWatched} title="Watched Movies" />
-                <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Recommended For You" />
-                <Movies fetchData={fetchTrending} title="Trending Now" />
-                <Movies fetchData={fetchPopular} title="Most Popular" />
-                <Movies fetchData={fetchComedy} title="Comedy" />
-                <Movies fetchData={fetchAction} title="Action" />
+                <Movies key={`watched-${userId}`} fetchData={fetchWatched} title="Filmes assistidos" />
+                <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Recomendado para você" />
+                <Movies fetchData={fetchTrending} title="Em alta agora" />
+                <Movies fetchData={fetchPopular} title="Mais populares" />
+                <Movies fetchData={fetchComedy} title="Comédia" />
+                <Movies fetchData={fetchAction} title="Ação" />
                 <Movies fetchData={fetchDrama} title="Drama" />
-                <Movies fetchData={fetchHorror} title="Horror" />
+                <Movies fetchData={fetchHorror} title="Terror" />
                 {/*<Movies fetchData={fetchNowPlaying} title="Now Playing" />*/}
                 {/*<Movies fetchData={fetchTopRated} title="Top Rated" />*/}
                 {/*<Movies fetchData={fetchUpcoming} title="Upcoming" />*/}

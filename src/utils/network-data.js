@@ -290,3 +290,36 @@ export async function putEvent(userId, tmdbId) {
     return { error: true };
   }
 }
+
+/**
+ * Fetch recommendations based on a watched movie
+ * @param {number|string} userId - The user ID
+ * @param {number|string} itemId - The movie ID that was watched
+ * @returns {Promise<{error: boolean, data: Array, total_pages: number}>}
+ */
+export async function getRecomendationWatchX(userId, itemId) {
+  try {
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/get_recomendation_watch_x?userId=${userId}&ItemID=${itemId}`;
+    const res = await fetch(url);
+    const json = await res.json();
+
+    const recommendations = Array.isArray(json) ? json : [];
+
+    const mapped = await Promise.all(recommendations.map(async (rec) => {
+      const id = Number(rec.tmdbId ?? rec.movieId ?? rec.id);
+      if (!id) return null;
+      try {
+        const r = await fetchWithToken(`${BASE_URL}/movie/${id}`);
+        const j = await r.json();
+        return j;
+      } catch (e) {
+        return null;
+      }
+    }));
+
+    const filtered = mapped.filter(Boolean);
+    return { error: false, data: filtered, total_pages: 1 };
+  } catch (e) {
+    return { error: true, data: [], total_pages: 0 };
+  }
+}
