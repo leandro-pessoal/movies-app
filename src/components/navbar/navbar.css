@@ -13,3 +13,7 @@
 .search__button {
   @apply hidden md:block;
 }
+
+.text-ic-play{
+  color: #FF7800
+}

@@ -11,7 +11,11 @@
 }
 
 body {
-  @apply bg-primary text-white;
+  @apply text-white;
+}
+
+body {
+  background-color:#0F172A ;
 }
 
 ::-webkit-scrollbar {
