@@ -57,7 +57,12 @@ export default function Movies({ title, fetchData, isHasRecommendation }) {
         <>
             <div className="flex items-center gap-4 mb-4">
                 <h1 className='font-bold text-lg md:text-2xl'>{title}</h1>
-                <span className='text-sm text-gray-400 cursor-pointer hover:text-white'>Ver todos ›</span>
+                <span 
+                    className='text-sm text-gray-400 cursor-pointer hover:text-white'
+                    onClick={() => window.location.href = `/category?category=${encodeURIComponent(title)}`}
+                >
+                    Ver todos ›
+                </span>
             </div>
             <div className="relative">
                 <MdChevronLeft className="absolute left-2 top-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70 transition-all" size={40} onClick={scrollLeft}/>

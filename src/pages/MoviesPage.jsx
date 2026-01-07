@@ -1,4 +1,5 @@
 import { Navbar, Movies, LatestMovieCard, WatchedBasedRecommendations } from "../components"
+import CategoryPage from "./CategoryPage"
 import { useState, useEffect } from 'react'
 import { getNowPlaying, getPopular, getTopTated, getUpcoming, getRecomendation, getMovieDetail, getTrendingNow, getMoviesByGenre, getWatchedMovies } from "../utils"
 import { useSearchParams } from "react-router-dom";
@@ -64,7 +65,7 @@ export default function MoviesPage() {
                 <Movies key={`watched-${userId}`} fetchData={fetchWatched} title="Assistidos" />
                 <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Sugerido" />
                 <WatchedBasedRecommendations userId={userId} />
-                <Movies fetchData={fetchTrending} title="Agora" />
+                {/*<Movies fetchData={fetchTrending} title="Agora" />*/}
                 {/*<Movies fetchData={fetchPopular} title="Mais populares" />*/}
                 <Movies fetchData={fetchComedy} title="Comédia" />
                 <Movies fetchData={fetchAction} title="Ação" />
@@ -110,8 +111,9 @@ export default function MoviesPage() {
                 <Navbar />
             </section>
             {
-                // if there is query return search page
-                useQuery.get('query') ? <SearchPage /> : <Landing />
+                // if there is query return search page, if category return category page
+                useQuery.get('query') ? <SearchPage /> : 
+                useQuery.get('category') ? <CategoryPage /> : <Landing />
             }
         </div>
     )
