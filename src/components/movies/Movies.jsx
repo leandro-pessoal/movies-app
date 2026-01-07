@@ -55,27 +55,32 @@ export default function Movies({ title, fetchData, isHasRecommendation }) {
 
     return (
         <>
-            <h1 className='font-bold text-xs md:text-3xl'>{title}</h1>
-            <div className="card__card-list scrollbar__hidden" ref={cardList}>
-                <MdChevronLeft className="absolute xl:block hidden left-5 z-50 bg-gray-900 backdrop-blur-sm bg-opacity-50 rounded-full cursor-pointer hover:text-slate-400" size={50} onClick={scrollLeft}/>
-                {
-                    movies.map(movie => {
-                        return (
-                            <MovieCard movie={movie} key={movie.id} />
-                        );
-                    })
-                }
-                <Waypoint horizontal={true} onEnter={() => {
-                    // do the increment of the page if page < total pages
-                    if (pages.page < pages.total_pages)
-                        setPage(prev => {
-                            return {
-                                page: prev.page++,
-                                ...prev
-                            }
+            <div className="flex items-center gap-4 mb-4">
+                <h1 className='font-bold text-lg md:text-2xl'>{title}</h1>
+                <span className='text-sm text-gray-400 cursor-pointer hover:text-white'>Ver todos ›</span>
+            </div>
+            <div className="relative">
+                <MdChevronLeft className="absolute left-2 top-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70 transition-all" size={40} onClick={scrollLeft}/>
+                <div className="card__card-list-horizontal scrollbar__hidden" ref={cardList}>
+                    {
+                        movies.map(movie => {
+                            return (
+                                <MovieCard movie={movie} key={movie.id} />
+                            );
                         })
-                }} />
-                <MdChevronRight className="absolute xl:block hidden right-5 z-50 bg-gray-900 backdrop-blur-sm bg-opacity-50 rounded-full cursor-pointer hover:text-slate-400" size={50} onClick={scrollRight}/>
+                    }
+                    <Waypoint horizontal={true} onEnter={() => {
+                        // do the increment of the page if page < total pages
+                        if (pages.page < pages.total_pages)
+                            setPage(prev => {
+                                return {
+                                    page: prev.page++,
+                                    ...prev
+                                }
+                            })
+                    }} />
+                </div>
+                <MdChevronRight className="absolute right-2 top-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70 transition-all" size={40} onClick={scrollRight}/>
             </div>
         </>
     )

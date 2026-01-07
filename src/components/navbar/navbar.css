@@ -17,3 +17,155 @@
 .text-ic-play{
   color: #FF7800
 }
+
+.navbar-new {
+  @apply bg-slate-900 text-white px-6 py-3;
+}
+
+.navbar-content {
+  @apply flex items-center justify-between;
+}
+
+.navbar-top {
+  @apply flex justify-between items-center mb-6;
+}
+
+.navbar-left {
+  @apply flex items-center;
+}
+
+.navbar-brand {
+  @apply flex items-center gap-2 text-xl font-bold;
+}
+
+.navbar-logo {
+  @apply h-6 w-6;
+}
+
+.navbar-nav {
+  @apply flex gap-6 ml-6;
+}
+
+.nav-link {
+  @apply text-gray-300 hover:text-white transition-colors pb-1 border-b-2 border-transparent text-sm;
+}
+
+.nav-link.active {
+  @apply text-white border-orange-500;
+}
+
+.navbar-right {
+  @apply flex items-center gap-4;
+}
+
+.navbar-bottom {
+  @apply flex justify-between items-center;
+}
+
+.search-container {
+  @apply flex items-center bg-slate-700 rounded-full px-4 py-2 w-80;
+}
+
+.search-icon {
+  @apply text-gray-400 mr-3 text-sm;
+}
+
+.search-input {
+  @apply bg-transparent text-white placeholder-gray-400 outline-none flex-1 text-sm;
+}
+
+.user-profile {
+  @apply relative cursor-pointer;
+}
+
+.user-avatar {
+  @apply w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white;
+}
+
+.user-menu {
+  @apply absolute right-0 top-16 bg-slate-800 rounded-lg p-6 w-80 shadow-xl z-50;
+}
+
+.menu-section {
+  @apply mb-6 last:mb-0;
+}
+
+.menu-section h3 {
+  @apply text-lg font-semibold mb-4;
+}
+
+.menu-item {
+  @apply flex items-center gap-3 py-2 text-gray-300 hover:text-white cursor-pointer;
+}
+
+.profile-item {
+  @apply flex items-center gap-3 py-3 text-gray-300 hover:text-white cursor-pointer;
+}
+
+.profile-avatar {
+  @apply w-10 h-10 rounded-full flex items-center justify-center font-bold text-white;
+}
+
+.profile-avatar.green {
+  @apply bg-green-500;
+}
+
+.profile-avatar.pink {
+  @apply bg-pink-500;
+}
+
+.profile-avatar.gray {
+  @apply bg-gray-500;
+}
+
+.profile-avatar.blue {
+  @apply bg-blue-500;
+}
+
+.profile-avatar.purple {
+  @apply bg-purple-500;
+}
+
+.profile-avatar.yellow {
+  @apply bg-yellow-500;
+}
+
+.profile-avatar.red {
+  @apply bg-red-500;
+}
+
+.profile-avatar.indigo {
+  @apply bg-indigo-500;
+}
+
+.user-avatar.green {
+  @apply bg-green-500;
+}
+
+.user-avatar.pink {
+  @apply bg-pink-500;
+}
+
+.user-avatar.gray {
+  @apply bg-gray-500;
+}
+
+.user-avatar.blue {
+  @apply bg-blue-500;
+}
+
+.user-avatar.purple {
+  @apply bg-purple-500;
+}
+
+.user-avatar.yellow {
+  @apply bg-yellow-500;
+}
+
+.user-avatar.red {
+  @apply bg-red-500;
+}
+
+.user-avatar.indigo {
+  @apply bg-indigo-500;
+}

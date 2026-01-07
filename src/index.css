@@ -63,8 +63,38 @@ body {
   @apply overflow-x-auto overflow-y-hidden flex flex-nowrap items-center gap-4 scroll-smooth py-5;
 }
 
+.card__card-list-horizontal {
+  @apply flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth py-4 px-2;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.card__card-list-horizontal::-webkit-scrollbar {
+  display: none;
+}
+
 .card {
   @apply relative flex justify-center min-w-max overflow-x-hidden transition-all duration-300 hover:scale-105 hover:z-10;
+}
+
+.movie-card-horizontal {
+  @apply flex-shrink-0 w-48 transition-transform duration-300 hover:scale-105 cursor-pointer;
+}
+
+.movie-card-image {
+  @apply rounded-lg overflow-hidden mb-2;
+}
+
+.movie-card-img {
+  @apply w-full h-72 object-cover transition-all duration-300;
+}
+
+.movie-card-placeholder {
+  @apply flex flex-col items-center justify-center rounded-lg bg-gray-600 backdrop-blur-sm bg-opacity-20 w-full h-72;
+}
+
+.movie-card-title {
+  @apply text-sm font-medium text-white line-clamp-2 leading-tight;
 }
 
 .scrollbar__hidden::-webkit-scrollbar {
