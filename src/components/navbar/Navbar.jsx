@@ -8,6 +8,9 @@ export default function Navbar() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [showUserMenu, setShowUserMenu] = useState(false)
     const [userId, setUserId] = useState(() => localStorage.getItem('userId') ?? '76')
+    
+    const currentCategory = searchParams.get('category')
+    const isHomePage = !searchParams.get('query') && !currentCategory
 
     const users = [
         { id: '01', name: 'User 01', avatar: '01', color: 'green' },
@@ -46,9 +49,11 @@ export default function Navbar() {
                         <span>play</span>
                     </div>
                     <nav className="navbar-nav">
-                        <a href="#" className="nav-link active">Início</a>
-                        <a href="#" className="nav-link">Mostras</a>
-                        <a href="#" className="nav-link">Festivais</a>
+                        <a href="/" className={`nav-link ${isHomePage ? 'active' : ''}`}>Início</a>
+                        <a href="/category?category=Comédia" className={`nav-link ${currentCategory === 'Comédia' ? 'active' : ''}`}>Comédia</a>
+                        <a href="/category?category=Ação" className={`nav-link ${currentCategory === 'Ação' ? 'active' : ''}`}>Ação</a>
+                        <a href="/category?category=Drama" className={`nav-link ${currentCategory === 'Drama' ? 'active' : ''}`}>Drama</a>
+                        <a href="/category?category=Terror" className={`nav-link ${currentCategory === 'Terror' ? 'active' : ''}`}>Terror</a>
                     </nav>
                 </div>
                 <div className="navbar-right">
