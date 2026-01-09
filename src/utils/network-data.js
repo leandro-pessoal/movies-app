@@ -283,8 +283,14 @@ export async function getWatchedMovies(userId) {
  */
 export async function putEvent(userId, tmdbId) {
   try {
-    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/put_event?userId=${userId}&tmdbId=${tmdbId}`;
-    await fetch(url, { method: 'PUT' });
+    const url = `https://7waziao4cc.execute-api.us-east-1.amazonaws.com/put_event`;
+    const response = await fetch(url, { 
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId, tmdbId })
+    });
     return { error: false };
   } catch (e) {
     return { error: true };

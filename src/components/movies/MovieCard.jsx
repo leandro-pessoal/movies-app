@@ -8,7 +8,7 @@ export default function MovieCard({ movie }) {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleClick = () => {
-        const userId = localStorage.getItem('userId') || '76';
+        const userId = localStorage.getItem('userId');
         putEvent(userId, movie.id);
     };
 
