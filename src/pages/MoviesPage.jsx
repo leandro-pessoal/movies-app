@@ -65,7 +65,7 @@ export default function MoviesPage() {
                 <Movies key={`watched-${userId}`} fetchData={fetchWatched} title="Assistidos" />
                 <Movies key={`reco-${userId}`} fetchData={(page) => fetchRecommendation(userId, page)} title="Sugerido" />
                 <WatchedBasedRecommendations userId={userId} />
-                {/*<Movies fetchData={fetchTrending} title="Agora" />*/}
+                <Movies fetchData={fetchTrending} title="Agora" />
                 {/*<Movies fetchData={fetchPopular} title="Mais populares" />*/}
                 <Movies fetchData={fetchComedy} title="Comédia" />
                 <Movies fetchData={fetchAction} title="Ação" />
