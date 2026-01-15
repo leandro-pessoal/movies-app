@@ -1,27 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { useSearchParams } from 'react-router-dom'
 import symbolLogo from '../../assets/images/symbol-ic-play.webp'
+import { getUsers, addUser } from '../../utils/users'
 import './navbar.css'
 
 export default function Navbar() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [showUserMenu, setShowUserMenu] = useState(false)
+    const [showAddUser, setShowAddUser] = useState(false)
     const [userId, setUserId] = useState(() => localStorage.getItem('userId') ?? '76')
+    const [users, setUsers] = useState(getUsers())
+    const [newUserId, setNewUserId] = useState('')
+    const [newUserName, setNewUserName] = useState('')
     
     const currentCategory = searchParams.get('category')
     const isHomePage = !searchParams.get('query') && !currentCategory
-
-    const users = [
-        { id: '01', name: 'User 01', avatar: '01', color: 'green' },
-        { id: '55', name: 'User 55', avatar: '55', color: 'blue' },
-        { id: '75', name: 'User 75', avatar: '75', color: 'purple' },
-        { id: '76', name: 'User 76', avatar: '76', color: 'pink' },
-        { id: '111', name: 'User 111', avatar: '111', color: 'yellow' },
-        { id: '214', name: 'User 214', avatar: '214', color: 'red' },
-        { id: '245', name: 'User 245', avatar: '245', color: 'indigo' },
-        { id: '1000', name: 'User 1000', avatar: '1K', color: 'gray' }
-    ]
 
     const currentUser = users.find(user => user.id === userId) || users[3]
 
@@ -37,6 +31,21 @@ export default function Navbar() {
         localStorage.setItem('userId', newUserId)
         window.dispatchEvent(new CustomEvent('userIdChange', { detail: newUserId }))
         setShowUserMenu(false)
+    }
+
+    const handleAddUser = (e) => {
+        e.preventDefault()
+        if (!newUserId || !newUserName) return
+        if (users.find(u => u.id === newUserId)) {
+            alert('ID já existe!')
+            return
+        }
+        const user = addUser(newUserId, newUserName)
+        setUsers(getUsers())
+        setNewUserId('')
+        setNewUserName('')
+        setShowAddUser(false)
+        handleUserIdChange(user.id)
     }
 
     return (
@@ -85,7 +94,7 @@ export default function Navbar() {
                                             <span>{user.name}</span>
                                         </div>
                                     ))}
-                                    <div className="profile-item">
+                                    <div className="profile-item" onClick={() => setShowAddUser(true)}>
                                         <div className="profile-avatar gray">+</div>
                                         <span>Adicionar novo</span>
                                     </div>
@@ -96,6 +105,35 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
+            {showAddUser && (
+                <div className="modal-overlay" onClick={() => setShowAddUser(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <h2 className="modal-title">Adicionar Novo Usuário</h2>
+                        <form onSubmit={handleAddUser}>
+                            <input
+                                type="text"
+                                placeholder="ID do usuário"
+                                className="modal-input"
+                                value={newUserId}
+                                onChange={(e) => setNewUserId(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Nome do usuário"
+                                className="modal-input"
+                                value={newUserName}
+                                onChange={(e) => setNewUserName(e.target.value)}
+                                required
+                            />
+                            <div className="modal-buttons">
+                                <button type="button" className="modal-btn-cancel" onClick={() => setShowAddUser(false)}>Cancelar</button>
+                                <button type="submit" className="modal-btn-submit">Adicionar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
